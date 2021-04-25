@@ -2,7 +2,8 @@ FROM centos
 
 RUN useradd -ms /bin/bash k8stools
 WORKDIR /home/k8stools
-
+ENV INSTALLROOT="${INSTALLROOT:-"/home/k8stools/.linkerd2"}"
+ENV PATH="$PATH:${INSTALLROOT}/bin"
 RUN yum update -y
 
 # Dist Tools
@@ -34,7 +35,8 @@ RUN  curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/maste
 RUN curl -s https://toolkit.fluxcd.io/install.sh | bash
 
 # linkerd
-RUN curl -sL run.linkerd.io/install | bash
+RUN curl -sL run.linkerd.io/install | bash \
+  && ln -s .linkerd2/bin/linkerd /usr/local/bin/linkerd
 
 # kubectx & kubens
 RUN wget -O /usr/bin/kubectx https://github.com/ahmetb/kubectx/releases/download/v0.9.3/kubectx \
