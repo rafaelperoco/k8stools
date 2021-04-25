@@ -18,7 +18,10 @@ RUN yum install -y \
   vim \
   tcpdump \
   nodejs \
-  python3-pip
+  python3-pip \
+  sudo
+
+RUN echo "ALL ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # kubectl
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/arm64/kubectl \
